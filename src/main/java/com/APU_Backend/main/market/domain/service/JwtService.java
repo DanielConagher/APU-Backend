@@ -12,13 +12,14 @@ public class JwtService {
 
     private final String SECRET = "MiClaveSuperSecretaParaJWT2026APUProyecto";
 
-    public String generateToken(Integer userId, String correo) {
+    public String generateToken(Integer userId, String correo, String rol) {
 
         SecretKey key = Keys.hmacShaKeyFor(SECRET.getBytes());
 
         return Jwts.builder()
                 .subject(correo)
                 .claim("id", userId)
+                .claim("rol", rol)
                 .issuedAt(new Date())
                 .expiration(
                         new Date(System.currentTimeMillis()
