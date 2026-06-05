@@ -121,11 +121,15 @@ public class CredencialesRepositoryImpl implements CredencialesRepository {
                                 request.getCorreo(),
                                 rol);
 
+                String nombreCompleto = estudiante.getPrimerNombre() + " "
+                                + estudiante.getPrimerApellido();
+
                 return new AuthResponseDTO(
                                 estudiante.getIdEstudiante(),
                                 request.getCorreo(),
                                 token,
-                                rol);
+                                rol,
+                                nombreCompleto);
         }
 
         @Override
@@ -134,6 +138,11 @@ public class CredencialesRepositoryImpl implements CredencialesRepository {
                 Credenciales credenciales = credencialesRepo
                                 .findByCorreo(request.getCorreo())
                                 .orElseThrow(() -> new RuntimeException("Correo no encontrado"));
+
+                Estudiante estudiante = credenciales.getEstudiante();
+
+                String nombreCompleto = estudiante.getPrimerNombre() + " "
+                                + estudiante.getPrimerApellido();
 
                 boolean passwordValida = passwordEncoder.matches(
                                 request.getContrasena(),
@@ -168,6 +177,7 @@ public class CredencialesRepositoryImpl implements CredencialesRepository {
                                 idUsuario,
                                 credenciales.getCorreo(),
                                 token,
-                                rol);
+                                rol,
+                                nombreCompleto);
         }
 }
