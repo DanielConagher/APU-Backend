@@ -1,5 +1,6 @@
 package com.APU_Backend.main.market.domain.service;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
@@ -26,5 +27,39 @@ public class JwtService {
                                 + 86400000))
                 .signWith(key)
                 .compact();
+    }
+
+    // Metodo para obtener el id de usuario dentro del token
+    public Integer extractUserId(String token) {
+
+        SecretKey key = Keys.hmacShaKeyFor(
+                SECRET.getBytes());
+
+        Claims claims = Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        return claims.get(
+                "id",
+                Integer.class);
+    }
+
+    // Metodo para obtener el rol del usuario dentro del token jwt
+    public String extractRol(String token) {
+
+        SecretKey key = Keys.hmacShaKeyFor(
+                SECRET.getBytes());
+
+        Claims claims = Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        return claims.get(
+                "rol",
+                String.class);
     }
 }
