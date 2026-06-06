@@ -1,5 +1,6 @@
 package com.APU_Backend.main.market.domain.service;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
@@ -26,5 +27,21 @@ public class JwtService {
                                 + 86400000))
                 .signWith(key)
                 .compact();
+    }
+
+    public Integer extractId(String token) {
+
+        SecretKey key = Keys.hmacShaKeyFor(
+                SECRET.getBytes());
+
+        Claims claims = Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        return claims.get(
+                "id",
+                Integer.class);
     }
 }
