@@ -20,4 +20,12 @@ public class ComentarioRepositoryImpl implements ComentarioRepository {
     public List<Comentario> findByContenidoId(int contenidoId) {
         return comentarioCrudRepository.findByContenidoIdContenido(contenidoId);
     }
+
+    @Override
+    public void guardar(
+            Comentario comentario) {
+
+        comentarioCrudRepository
+                .save(comentario);
+    }
 }

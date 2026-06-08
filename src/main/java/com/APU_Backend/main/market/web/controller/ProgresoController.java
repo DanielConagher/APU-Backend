@@ -14,7 +14,7 @@ import com.APU_Backend.main.market.domain.dto.ProgresoAprendizajeDTO;
 import com.APU_Backend.main.market.domain.service.JwtService;
 import com.APU_Backend.main.market.domain.service.ProgresoService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
@@ -51,6 +51,10 @@ public class ProgresoController {
                                 "");
 
                 Integer idEstudiante = jwtService.extractId(token);
+
+                System.out.println(
+                                "ESTUDIANTE = "
+                                                + idEstudiante);
 
                 progresoService.completarContenido(
                                 idEstudiante,
