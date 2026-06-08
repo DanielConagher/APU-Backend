@@ -65,7 +65,7 @@ public class Estudiante {
 
     @OneToMany(mappedBy = "estudiante")
     @JsonIgnore
-    private List<Cuestionario> cuestionarios;
+    private List<ResultadoCuestionario> resultadosCuestionario;
 
     @OneToMany(mappedBy = "estudiante")
     @JsonIgnore

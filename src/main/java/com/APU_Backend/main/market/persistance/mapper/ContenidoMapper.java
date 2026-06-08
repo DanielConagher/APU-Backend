@@ -21,7 +21,8 @@ public class ContenidoMapper {
         }
 
         public ContenidoDTO toContenidoDTO(
-                        Contenido contenido) {
+                        Contenido contenido,
+                        List<Comentario> comentarios) {
 
                 try {
 
@@ -35,8 +36,7 @@ public class ContenidoMapper {
                                         new TypeReference<List<String>>() {
                                         });
 
-                        List<ComentarioDTO> comentarios = contenido.getComentarios()
-                                        .stream()
+                        List<ComentarioDTO> comentariosDTO = comentarios.stream()
                                         .map(this::toComentarioDTO)
                                         .toList();
 
@@ -44,7 +44,7 @@ public class ContenidoMapper {
                                         contenido.getTeoria(),
                                         imagenes,
                                         videos,
-                                        comentarios);
+                                        comentariosDTO);
 
                 } catch (Exception e) {
 

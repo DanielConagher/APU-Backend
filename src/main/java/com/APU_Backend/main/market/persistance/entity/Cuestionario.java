@@ -20,8 +20,6 @@ public class Cuestionario {
     @Column(name = "id_cuestionario")
     private Integer idCuestionario;
 
-    private Boolean completada;
-
     @Column(name = "experiencia_ganada")
     private Integer experienciaGanada;
 
@@ -33,18 +31,14 @@ public class Cuestionario {
     @Column(name = "num_desastres")
     private Integer numDesastres;
 
-    @ManyToOne
-    @JoinColumn(name = "id_estudiante")
-    private Estudiante estudiante;
-
     @OneToOne(mappedBy = "cuestionario")
     private Contenido contenido;
-
-    @OneToOne(mappedBy = "cuestionario")
-    private Notificacion notificacion;
 
     @OneToMany(mappedBy = "cuestionario")
     @JsonIgnore
     private List<Pregunta> pregunta;
 
+    @OneToMany(mappedBy = "cuestionario")
+    @JsonIgnore
+    private List<ResultadoCuestionario> resultados;
 }
