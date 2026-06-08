@@ -8,7 +8,11 @@ import lombok.*;
 @AllArgsConstructor
 public class MapaAprendizajeDTO {
 
+    private Integer numeroNivel;
+
     private Integer idContenido;
 
     private Integer estado;
+
+    private String titulo;
 }
