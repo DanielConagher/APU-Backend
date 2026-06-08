@@ -3,7 +3,9 @@ package com.APU_Backend.main.market.domain.service;
 import org.springframework.stereotype.Service;
 
 import com.APU_Backend.main.market.domain.dto.ContenidoDTO;
+import com.APU_Backend.main.market.domain.repository.ComentarioRepository;
 import com.APU_Backend.main.market.domain.repository.ContenidoRepository;
+import com.APU_Backend.main.market.persistance.entity.Comentario;
 import com.APU_Backend.main.market.persistance.entity.Contenido;
 import com.APU_Backend.main.market.persistance.mapper.ContenidoMapper;
 
@@ -12,23 +14,26 @@ public class ContenidoService {
 
     private final ContenidoRepository contenidoRepository;
 
+    private final ComentarioRepository comentarioRepository;
+
     private final ContenidoMapper contenidoMapper;
 
     public ContenidoService(
             ContenidoRepository contenidoRepository,
-            ContenidoMapper contenidoMapper) {
+            ContenidoMapper contenidoMapper,
+            ComentarioRepository comentarioRepository) {
         this.contenidoRepository = contenidoRepository;
         this.contenidoMapper = contenidoMapper;
+        this.comentarioRepository = comentarioRepository;
     }
 
-    public ContenidoDTO obtenerContenido(
-            int id) {
+    public ContenidoDTO obtenerContenido(int id) {
 
         Contenido contenido = contenidoRepository.getContenido(id)
-                .orElseThrow(() -> new RuntimeException(
-                        "Contenido no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Contenido no encontrado"));
 
-        return contenidoMapper.toContenidoDTO(
-                contenido);
+        var comentarios = comentarioRepository.findByContenidoId(id);
+
+        return contenidoMapper.toContenidoDTO(contenido, comentarios);
     }
 }

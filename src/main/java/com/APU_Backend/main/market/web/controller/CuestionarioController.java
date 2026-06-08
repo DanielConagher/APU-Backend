@@ -37,6 +37,11 @@ public class CuestionarioController {
                                 .obtenerPorContenido(idContenido);
         }
 
+        /*
+        Este endpoint recibe las respuestas elegidas por un estudiante en una burbuja de tipo cuestionario, 
+        calcula su nota, y guarda su resultado en la tabla resultado_cuestionario. Tambien, desbloquea la siguiente
+        burbuja del mapa. 
+        */
         @PostMapping("/resolver")
         public ResultadoCuestionarioDTO resolver(
 

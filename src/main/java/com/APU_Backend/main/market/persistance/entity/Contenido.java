@@ -38,18 +38,21 @@ public class Contenido {
     @Column(name = "num_desastres")
     private Integer numDesastres;
 
-    @ManyToOne
-    @JoinColumn(name = "id_nivel")
-    private Nivel nivel;
+    @Column(name = "titulo")
+    private String titulo;
 
-    @OneToOne(mappedBy = "contenido")
+    @OneToOne(mappedBy = "contenido", fetch = FetchType.LAZY)
     private Progreso progreso;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cuestionario")
     private Cuestionario cuestionario;
 
-    @OneToMany(mappedBy = "contenido")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_nivel")
+    private Nivel nivel;
+
+    @OneToMany(mappedBy = "contenido", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Comentario> comentarios;
 
