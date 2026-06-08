@@ -41,8 +41,9 @@ public class Contenido {
     @Column(name = "titulo")
     private String titulo;
 
-    @OneToOne(mappedBy = "contenido", fetch = FetchType.LAZY)
-    private Progreso progreso;
+    @OneToMany(mappedBy = "contenido", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Progreso> progresos;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cuestionario")
