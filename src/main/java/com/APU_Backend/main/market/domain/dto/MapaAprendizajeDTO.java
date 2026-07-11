@@ -15,4 +15,6 @@ public class MapaAprendizajeDTO {
     private Integer estado;
 
     private String titulo;
+
+    private Boolean esCuestionario;
 }

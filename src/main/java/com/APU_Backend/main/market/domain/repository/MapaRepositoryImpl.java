@@ -73,7 +73,8 @@ public class MapaRepositoryImpl
                                                         ((Number) fila[0]).intValue(), // numeroNivel
                                                         ((Number) fila[1]).intValue(), // idContenido
                                                         ((Number) fila[3]).intValue(), // estado
-                                                        (String) fila[2] // titulo
+                                                        (String) fila[2], // titulo
+                                                        (Boolean) fila[4] // esCuestionario
                                         ));
                 }
 
