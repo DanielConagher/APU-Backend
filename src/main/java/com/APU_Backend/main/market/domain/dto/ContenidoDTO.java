@@ -17,4 +17,6 @@ public class ContenidoDTO {
     private List<String> videos;
 
     private List<ComentarioDTO> comentarios;
+
+    private Boolean esCuestionario;
 }
