@@ -12,18 +12,28 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class MapaServiceImpl
-        implements MapaService {
+                implements MapaService {
 
-    private final MapaRepository mapaRepository;
+        private final MapaRepository mapaRepository;
 
-    @Override
-    public List<MapaAprendizajeDTO> obtenerMapaAprendizaje(
-            Integer idEstudiante,
-            Integer idTipoDesastre) {
+        @Override
+        public List<MapaAprendizajeDTO> obtenerMapaAprendizaje(
+                        Integer idEstudiante,
+                        Integer idTipoDesastre) {
 
-        return mapaRepository
-                .obtenerMapaAprendizaje(
-                        idEstudiante,
-                        idTipoDesastre);
-    }
+                return mapaRepository
+                                .obtenerMapaAprendizaje(
+                                                idEstudiante,
+                                                idTipoDesastre);
+        }
+
+        @Override
+        public List<MapaAprendizajeDTO> obtenerMapaPersonalizado(
+                        Integer idEstudiante,
+                        Integer idTipoDesastre) {
+
+                return mapaRepository.obtenerMapaPersonalizado(
+                                idEstudiante,
+                                idTipoDesastre);
+        }
 }

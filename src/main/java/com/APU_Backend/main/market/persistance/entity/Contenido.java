@@ -57,4 +57,8 @@ public class Contenido {
     @JsonIgnore
     private List<Comentario> comentarios;
 
+    @ManyToMany
+    @JoinTable(name = "contenido_discapacidad", joinColumns = @JoinColumn(name = "id_contenido"), inverseJoinColumns = @JoinColumn(name = "id_discapacidad"))
+    private List<Discapacidad> discapacidades;
+
 }

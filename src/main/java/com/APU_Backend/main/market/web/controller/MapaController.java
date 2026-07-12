@@ -51,4 +51,20 @@ public class MapaController {
                                                 idEstudiante,
                                                 idTipoDesastre);
         }
+
+        @GetMapping("/personalizado/{idTipoDesastre}")
+        public List<MapaAprendizajeDTO> obtenerMapaPersonalizado(
+
+                        @PathVariable Integer idTipoDesastre,
+
+                        @RequestHeader("Authorization") String authHeader) {
+
+                String token = authHeader.replace("Bearer ", "");
+
+                Integer idEstudiante = jwtService.extractId(token);
+
+                return mapaService.obtenerMapaPersonalizado(
+                                idEstudiante,
+                                idTipoDesastre);
+        }
 }
