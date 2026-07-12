@@ -18,6 +18,38 @@ public class MapaRepositoryImpl
         @PersistenceContext
         private EntityManager entityManager;
 
+        /**
+         * Método reutilizable para convertir el resultado del SP en DTOs.
+         */
+        private List<MapaAprendizajeDTO> obtenerMapa(
+                        Integer idEstudiante,
+                        Integer idTipoDesastre,
+                        String storedProcedure) {
+
+                List<Object[]> resultados = entityManager
+                                .createNativeQuery(
+                                                "CALL " + storedProcedure + "(:idEstudiante,:idTipoDesastre)")
+                                .setParameter("idEstudiante", idEstudiante)
+                                .setParameter("idTipoDesastre", idTipoDesastre)
+                                .getResultList();
+
+                List<MapaAprendizajeDTO> respuesta = new ArrayList<>();
+
+                for (Object[] fila : resultados) {
+
+                        respuesta.add(
+                                        new MapaAprendizajeDTO(
+                                                        ((Number) fila[0]).intValue(), // numeroNivel
+                                                        ((Number) fila[1]).intValue(), // idContenido
+                                                        ((Number) fila[3]).intValue(), // estado
+                                                        (String) fila[2], // titulo
+                                                        (Boolean) fila[4] // esCuestionario
+                                        ));
+                }
+
+                return respuesta;
+        }
+
         @Override
         @Transactional
         public List<MapaAprendizajeDTO> obtenerMapaAprendizaje(
@@ -58,26 +90,56 @@ public class MapaRepositoryImpl
                                         .executeUpdate();
                 }
 
-                List<Object[]> resultados = entityManager
-                                .createNativeQuery("CALL sp_mapa_aprendizaje(:idEstudiante,:idTipoDesastre)")
-                                .setParameter("idEstudiante", idEstudiante)
-                                .setParameter("idTipoDesastre", idTipoDesastre)
-                                .getResultList();
+                return obtenerMapa(
+                                idEstudiante,
+                                idTipoDesastre,
+                                "sp_mapa_aprendizaje");
+        }
 
-                List<MapaAprendizajeDTO> respuesta = new ArrayList<>();
+        @Override
+        @Transactional
+        public List<MapaAprendizajeDTO> obtenerMapaPersonalizado(
+                        Integer idEstudiante,
+                        Integer idTipoDesastre) {
 
-                for (Object[] fila : resultados) {
+                Number cantidad = (Number) entityManager
+                                .createNativeQuery(
+                                                "CALL sp_tiene_progreso(:idEstudiante,:idTipoDesastre)")
+                                .setParameter(
+                                                "idEstudiante",
+                                                idEstudiante)
+                                .setParameter(
+                                                "idTipoDesastre",
+                                                idTipoDesastre)
+                                .getSingleResult();
 
-                        respuesta.add(
-                                        new MapaAprendizajeDTO(
-                                                        ((Number) fila[0]).intValue(), // numeroNivel
-                                                        ((Number) fila[1]).intValue(), // idContenido
-                                                        ((Number) fila[3]).intValue(), // estado
-                                                        (String) fila[2], // titulo
-                                                        (Boolean) fila[4] // esCuestionario
-                                        ));
+                if (cantidad.intValue() == 0) {
+
+                        Integer primeraBurbuja = ((Number) entityManager
+                                        .createNativeQuery(
+                                                        "CALL sp_primera_burbuja(:idTipoDesastre)")
+                                        .setParameter(
+                                                        "idTipoDesastre",
+                                                        idTipoDesastre)
+                                        .getSingleResult())
+                                        .intValue();
+
+                        entityManager
+                                        .createNativeQuery(
+                                                        "CALL sp_crear_progreso_inicial(:idEstudiante,:idContenido)")
+                                        .setParameter(
+                                                        "idEstudiante",
+                                                        idEstudiante)
+                                        .setParameter(
+                                                        "idContenido",
+                                                        primeraBurbuja)
+                                        .executeUpdate();
                 }
 
-                return respuesta;
+                return obtenerMapa(
+                                idEstudiante,
+                                idTipoDesastre,
+                                "sp_mapa_personalizado");
         }
+
 }
