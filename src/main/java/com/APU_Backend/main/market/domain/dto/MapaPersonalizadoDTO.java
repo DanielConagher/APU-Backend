@@ -6,11 +6,9 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MapaAprendizajeDTO {
+public class MapaPersonalizadoDTO {
 
     private Integer numeroNivel;
-
-    private Integer posicion;
 
     private Integer idContenido;
 
@@ -20,4 +18,5 @@ public class MapaAprendizajeDTO {
 
     private Boolean esCuestionario;
 
+    private Integer posicion;
 }

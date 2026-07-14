@@ -41,4 +41,8 @@ public class Cuestionario {
     @OneToMany(mappedBy = "cuestionario")
     @JsonIgnore
     private List<ResultadoCuestionario> resultados;
+
+    @OneToOne(mappedBy = "cuestionario")
+    @JsonIgnore
+    private ContenidoPersonalizado contenidoPersonalizado;
 }
