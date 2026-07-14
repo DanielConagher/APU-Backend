@@ -11,20 +11,19 @@ import lombok.*;
 @AllArgsConstructor
 public class MochilaPersonalizadaMaterial {
 
-    @EmbeddedId
-    private MochilaPersonalizadaMaterialId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_material_personalizado")
+    private Integer idMaterialPersonalizado;
+
+    private String nombre;
 
     private Integer cantidad;
 
     private Boolean conseguido;
 
     @ManyToOne
-    @MapsId("idMochila")
     @JoinColumn(name = "id_mochila")
     private MochilaPersonalizada mochilaPersonalizada;
 
-    @ManyToOne
-    @MapsId("idMaterial")
-    @JoinColumn(name = "id_material")
-    private MaterialMochila materialMochila;
 }
