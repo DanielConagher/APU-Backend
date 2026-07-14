@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
 import com.APU_Backend.main.market.domain.dto.MapaAprendizajeDTO;
+import com.APU_Backend.main.market.domain.dto.MapaPersonalizadoDTO;
 import com.APU_Backend.main.market.domain.service.JwtService;
 import com.APU_Backend.main.market.domain.service.MapaService;
 
@@ -53,7 +54,7 @@ public class MapaController {
         }
 
         @GetMapping("/personalizado/{idTipoDesastre}")
-        public List<MapaAprendizajeDTO> obtenerMapaPersonalizado(
+        public List<MapaPersonalizadoDTO> obtenerMapaPersonalizado(
 
                         @PathVariable Integer idTipoDesastre,
 

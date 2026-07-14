@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.APU_Backend.main.market.domain.dto.MapaAprendizajeDTO;
+import com.APU_Backend.main.market.domain.dto.MapaPersonalizadoDTO;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -38,13 +39,17 @@ public class MapaRepositoryImpl
                 for (Object[] fila : resultados) {
 
                         respuesta.add(
+
                                         new MapaAprendizajeDTO(
                                                         ((Number) fila[0]).intValue(), // numeroNivel
-                                                        ((Number) fila[1]).intValue(), // idContenido
-                                                        ((Number) fila[3]).intValue(), // estado
-                                                        (String) fila[2], // titulo
-                                                        (Boolean) fila[4] // esCuestionario
-                                        ));
+                                                        ((Number) fila[1]).intValue(), // posicion
+                                                        ((Number) fila[2]).intValue(), // idContenido
+                                                        ((Number) fila[4]).intValue(), // estado
+                                                        (String) fila[3], // titulo
+                                                        (Boolean) fila[5] // esCuestionario
+                                        )
+
+                        );
                 }
 
                 return respuesta;
@@ -98,13 +103,13 @@ public class MapaRepositoryImpl
 
         @Override
         @Transactional
-        public List<MapaAprendizajeDTO> obtenerMapaPersonalizado(
+        public List<MapaPersonalizadoDTO> obtenerMapaPersonalizado(
                         Integer idEstudiante,
                         Integer idTipoDesastre) {
 
                 Number cantidad = (Number) entityManager
                                 .createNativeQuery(
-                                                "CALL sp_tiene_progreso(:idEstudiante,:idTipoDesastre)")
+                                                "CALL sp_tiene_progreso_personalizado(:idEstudiante,:idTipoDesastre)")
                                 .setParameter(
                                                 "idEstudiante",
                                                 idEstudiante)
@@ -117,7 +122,10 @@ public class MapaRepositoryImpl
 
                         Integer primeraBurbuja = ((Number) entityManager
                                         .createNativeQuery(
-                                                        "CALL sp_primera_burbuja(:idTipoDesastre)")
+                                                        "CALL sp_primera_burbuja_personalizada(:idEstudiante,:idTipoDesastre)")
+                                        .setParameter(
+                                                        "idEstudiante",
+                                                        idEstudiante)
                                         .setParameter(
                                                         "idTipoDesastre",
                                                         idTipoDesastre)
@@ -126,7 +134,7 @@ public class MapaRepositoryImpl
 
                         entityManager
                                         .createNativeQuery(
-                                                        "CALL sp_crear_progreso_inicial(:idEstudiante,:idContenido)")
+                                                        "CALL sp_crear_progreso_personalizado_inicial(:idEstudiante,:idContenido)")
                                         .setParameter(
                                                         "idEstudiante",
                                                         idEstudiante)
@@ -134,12 +142,45 @@ public class MapaRepositoryImpl
                                                         "idContenido",
                                                         primeraBurbuja)
                                         .executeUpdate();
+
                 }
 
-                return obtenerMapa(
-                                idEstudiante,
-                                idTipoDesastre,
-                                "sp_mapa_personalizado");
+                List<Object[]> resultados = entityManager
+                                .createNativeQuery(
+                                                "CALL sp_mapa_personalizado(:idEstudiante,:idTipoDesastre)")
+                                .setParameter(
+                                                "idEstudiante",
+                                                idEstudiante)
+                                .setParameter(
+                                                "idTipoDesastre",
+                                                idTipoDesastre)
+                                .getResultList();
+
+                List<MapaPersonalizadoDTO> respuesta = new ArrayList<>();
+
+                for (Object[] fila : resultados) {
+
+                        respuesta.add(
+                                        new MapaPersonalizadoDTO(
+
+                                                        ((Number) fila[0]).intValue(), // nivel
+
+                                                        ((Number) fila[2]).intValue(), // id contenido
+
+                                                        ((Number) fila[4]).intValue(), // estado
+
+                                                        (String) fila[3], // titulo
+
+                                                        (Boolean) fila[5], // cuestionario
+
+                                                        ((Number) fila[1]).intValue() // posicion
+
+                                        ));
+
+                }
+
+                return respuesta;
+
         }
 
 }

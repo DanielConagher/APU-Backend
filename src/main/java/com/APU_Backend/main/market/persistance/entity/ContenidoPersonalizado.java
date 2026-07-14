@@ -8,17 +8,17 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "contenido")
+@Table(name = "contenido_personalizado")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Contenido {
+public class ContenidoPersonalizado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_contenido")
-    private Integer idContenido;
+    @Column(name = "id_contenido_personalizado")
+    private Integer idContenidoPersonalizado;
 
     @Column(columnDefinition = "TEXT")
     private String teoria;
@@ -35,33 +35,27 @@ public class Contenido {
     @Column(name = "es_cuestionario")
     private Boolean esCuestionario;
 
-    @Column(name = "num_desastres")
-    private Integer numDesastres;
-
-    @Column(name = "titulo")
     private String titulo;
 
-    @Column(name = "posicion")
     private Integer posicion;
-
-    @OneToMany(mappedBy = "contenido", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Progreso> progresos;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_cuestionario")
-    private Cuestionario cuestionario;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nivel")
     private Nivel nivel;
 
-    @OneToMany(mappedBy = "contenido", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Comentario> comentarios;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_cuestionario")
+    private Cuestionario cuestionario;
 
     @ManyToMany
-    @JoinTable(name = "contenido_discapacidad", joinColumns = @JoinColumn(name = "id_contenido"), inverseJoinColumns = @JoinColumn(name = "id_discapacidad"))
+    @JoinTable(name = "contenido_personalizado_discapacidad", joinColumns = @JoinColumn(name = "id_contenido_personalizado"), inverseJoinColumns = @JoinColumn(name = "id_discapacidad"))
     private List<Discapacidad> discapacidades;
 
+    @OneToMany(mappedBy = "contenidoPersonalizado")
+    @JsonIgnore
+    private List<ProgresoPersonalizado> progresos;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_tipo_desastre")
+    private TipoDesastre tipoDesastre;
 }

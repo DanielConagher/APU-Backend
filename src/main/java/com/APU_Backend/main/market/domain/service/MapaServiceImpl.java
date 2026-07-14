@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.APU_Backend.main.market.domain.dto.MapaAprendizajeDTO;
+import com.APU_Backend.main.market.domain.dto.MapaPersonalizadoDTO;
 import com.APU_Backend.main.market.domain.repository.MapaRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class MapaServiceImpl
         }
 
         @Override
-        public List<MapaAprendizajeDTO> obtenerMapaPersonalizado(
+        public List<MapaPersonalizadoDTO> obtenerMapaPersonalizado(
                         Integer idEstudiante,
                         Integer idTipoDesastre) {
 
