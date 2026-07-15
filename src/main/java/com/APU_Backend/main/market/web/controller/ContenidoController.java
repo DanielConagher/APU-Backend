@@ -1,7 +1,10 @@
 package com.APU_Backend.main.market.web.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.*;
 
+import com.APU_Backend.main.market.domain.dto.ContenidoAdminDTO;
 import com.APU_Backend.main.market.domain.dto.ContenidoDTO;
 import com.APU_Backend.main.market.domain.service.ContenidoService;
 
@@ -22,5 +25,13 @@ public class ContenidoController {
             @PathVariable int id) {
 
         return contenidoService.obtenerContenido(id);
+    }
+
+    @GetMapping("/admin")
+
+    public List<ContenidoAdminDTO> listar() {
+
+        return contenidoService.listarContenidos();
+
     }
 }
