@@ -41,6 +41,10 @@ public class Estudiante {
     @Column(name = "ultima_conexion")
     private LocalDateTime ultimaConexion;
 
+    @OneToMany(mappedBy = "estudiante")
+    @JsonIgnore
+    private List<ProgresoPersonalizado> progresosPersonalizados;
+
     @ManyToOne
     @JoinColumn(name = "id_ubicacion")
     private Ubicacion ubicacion;

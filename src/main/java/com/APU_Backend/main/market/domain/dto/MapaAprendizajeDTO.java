@@ -10,9 +10,14 @@ public class MapaAprendizajeDTO {
 
     private Integer numeroNivel;
 
+    private Integer posicion;
+
     private Integer idContenido;
 
     private Integer estado;
 
     private String titulo;
+
+    private Boolean esCuestionario;
+
 }

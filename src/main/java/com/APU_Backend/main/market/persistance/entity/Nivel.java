@@ -30,4 +30,8 @@ public class Nivel {
     @OneToMany(mappedBy = "nivel")
     @JsonIgnore
     private List<Contenido> contenidos;
+
+    @OneToMany(mappedBy = "nivel")
+    @JsonIgnore
+    private List<ContenidoPersonalizado> contenidosPersonalizados;
 }

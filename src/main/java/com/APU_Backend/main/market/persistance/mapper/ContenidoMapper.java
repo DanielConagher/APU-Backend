@@ -41,10 +41,18 @@ public class ContenidoMapper {
                                         .toList();
 
                         return new ContenidoDTO(
+
                                         contenido.getTeoria(),
+
                                         imagenes,
+
                                         videos,
-                                        comentariosDTO);
+
+                                        comentariosDTO,
+
+                                        contenido.getEsCuestionario()
+
+                        );
 
                 } catch (Exception e) {
 

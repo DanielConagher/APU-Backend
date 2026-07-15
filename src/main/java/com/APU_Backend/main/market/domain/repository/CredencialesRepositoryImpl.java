@@ -137,18 +137,15 @@ public class CredencialesRepositoryImpl implements CredencialesRepository {
 
                 Credenciales credenciales = credencialesRepo
                                 .findByCorreo(request.getCorreo())
-                                .orElseThrow(() -> new RuntimeException("Correo no encontrado"));
-
-                Estudiante estudiante = credenciales.getEstudiante();
-
-                String nombreCompleto = estudiante.getPrimerNombre() + " "
-                                + estudiante.getPrimerApellido();
+                                .orElseThrow(() -> new RuntimeException(
+                                                "Correo no encontrado"));
 
                 boolean passwordValida = passwordEncoder.matches(
                                 request.getContrasena(),
                                 credenciales.getContrasena());
 
                 if (!passwordValida) {
+
                         throw new RuntimeException(
                                         "Contraseña incorrecta");
                 }
@@ -157,15 +154,42 @@ public class CredencialesRepositoryImpl implements CredencialesRepository {
 
                 Integer idUsuario;
 
+                String nombreCompleto;
+
                 if (credenciales.getAdministrador() != null) {
+
                         rol = "ADMINISTRADOR";
-                        idUsuario = credenciales.getAdministrador()
+
+                        idUsuario = credenciales
+                                        .getAdministrador()
                                         .getIdAdministrador();
 
+                        nombreCompleto = credenciales
+                                        .getAdministrador()
+                                        .getPrimerNombre()
+                                        + " "
+                                        +
+                                        credenciales
+                                                        .getAdministrador()
+                                                        .getPrimerApellido();
+
                 } else {
+
                         rol = "ESTUDIANTE";
-                        idUsuario = credenciales.getEstudiante()
+
+                        idUsuario = credenciales
+                                        .getEstudiante()
                                         .getIdEstudiante();
+
+                        nombreCompleto = credenciales
+                                        .getEstudiante()
+                                        .getPrimerNombre()
+                                        + " "
+                                        +
+                                        credenciales
+                                                        .getEstudiante()
+                                                        .getPrimerApellido();
+
                 }
 
                 String token = jwtService.generateToken(

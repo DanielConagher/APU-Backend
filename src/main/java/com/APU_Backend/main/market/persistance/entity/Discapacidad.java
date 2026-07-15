@@ -25,4 +25,8 @@ public class Discapacidad {
     @ManyToMany(mappedBy = "discapacidades")
     @JsonIgnore
     private List<Estudiante> estudiantes;
+
+    @ManyToMany(mappedBy = "discapacidades")
+    @JsonIgnore
+    private List<ContenidoPersonalizado> contenidosPersonalizados;
 }

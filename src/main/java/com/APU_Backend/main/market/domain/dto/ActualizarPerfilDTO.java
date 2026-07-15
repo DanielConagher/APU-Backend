@@ -1,5 +1,7 @@
 package com.APU_Backend.main.market.domain.dto;
 
+import java.util.List;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -38,4 +40,8 @@ public class ActualizarPerfilDTO {
 
     @NotNull(message = "Debe seleccionar una ubicación")
     private Integer idUbicacion;
+
+    @NotNull(message = "Debe seleccionar al menos una discapacidad")
+    @Size(min = 1, message = "Debe seleccionar al menos una discapacidad")
+    private List<Integer> idsDiscapacidades;
 }

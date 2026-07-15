@@ -26,7 +26,4 @@ public class MaterialMochila {
     @JsonIgnore
     private List<MochilaGeneralMaterial> mochilas;
 
-    @OneToMany(mappedBy = "materialMochila")
-    @JsonIgnore
-    private List<MochilaPersonalizadaMaterial> mochilasPersonalizadas;
 }

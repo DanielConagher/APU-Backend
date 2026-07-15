@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
 import com.APU_Backend.main.market.domain.dto.MapaAprendizajeDTO;
+import com.APU_Backend.main.market.domain.dto.MapaPersonalizadoDTO;
 import com.APU_Backend.main.market.domain.service.JwtService;
 import com.APU_Backend.main.market.domain.service.MapaService;
 
@@ -50,5 +51,21 @@ public class MapaController {
                                 .obtenerMapaAprendizaje(
                                                 idEstudiante,
                                                 idTipoDesastre);
+        }
+
+        @GetMapping("/personalizado/{idTipoDesastre}")
+        public List<MapaPersonalizadoDTO> obtenerMapaPersonalizado(
+
+                        @PathVariable Integer idTipoDesastre,
+
+                        @RequestHeader("Authorization") String authHeader) {
+
+                String token = authHeader.replace("Bearer ", "");
+
+                Integer idEstudiante = jwtService.extractId(token);
+
+                return mapaService.obtenerMapaPersonalizado(
+                                idEstudiante,
+                                idTipoDesastre);
         }
 }
