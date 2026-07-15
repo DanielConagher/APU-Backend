@@ -1,5 +1,6 @@
 package com.APU_Backend.main.market.web.controller;
 
+import com.APU_Backend.main.market.domain.dto.ResumenComentariosDTO;
 import com.APU_Backend.main.market.domain.service.AnalisisComentariosService;
 
 import lombok.RequiredArgsConstructor;
@@ -15,14 +16,18 @@ public class AnalisisComentariosController {
 
     private final AnalisisComentariosService analisisService;
 
-    @PostMapping("/{idContenido}")
+    @GetMapping("/{idContenido}")
     public ResponseEntity<String> analizarComentarios(
-            @PathVariable Integer idContenido) {
+
+            @PathVariable Integer idContenido,
+
+            @RequestHeader("Authorization") String authHeader) {
 
         try {
 
-            String resumen = analisisService
-                    .analizarComentarios(idContenido);
+            String resumen = analisisService.analizarComentarios(
+                    idContenido,
+                    authHeader);
 
             return ResponseEntity.ok(resumen);
 
@@ -31,6 +36,8 @@ public class AnalisisComentariosController {
             return ResponseEntity
                     .badRequest()
                     .body(e.getMessage());
+
         }
+
     }
 }

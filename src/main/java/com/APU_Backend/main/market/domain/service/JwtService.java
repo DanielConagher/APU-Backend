@@ -11,37 +11,53 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    private final String SECRET = "MiClaveSuperSecretaParaJWT2026APUProyecto";
+        private final String SECRET = "MiClaveSuperSecretaParaJWT2026APUProyecto";
 
-    public String generateToken(Integer userId, String correo, String rol) {
+        public String generateToken(Integer userId, String correo, String rol) {
 
-        SecretKey key = Keys.hmacShaKeyFor(SECRET.getBytes());
+                SecretKey key = Keys.hmacShaKeyFor(SECRET.getBytes());
 
-        return Jwts.builder()
-                .subject(correo)
-                .claim("id", userId)
-                .claim("rol", rol)
-                .issuedAt(new Date())
-                .expiration(
-                        new Date(System.currentTimeMillis()
-                                + 86400000))
-                .signWith(key)
-                .compact();
-    }
+                return Jwts.builder()
+                                .subject(correo)
+                                .claim("id", userId)
+                                .claim("rol", rol)
+                                .issuedAt(new Date())
+                                .expiration(
+                                                new Date(System.currentTimeMillis()
+                                                                + 86400000))
+                                .signWith(key)
+                                .compact();
+        }
 
-    public Integer extractId(String token) {
+        public Integer extractId(String token) {
 
-        SecretKey key = Keys.hmacShaKeyFor(
-                SECRET.getBytes());
+                SecretKey key = Keys.hmacShaKeyFor(
+                                SECRET.getBytes());
 
-        Claims claims = Jwts.parser()
-                .verifyWith(key)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+                Claims claims = Jwts.parser()
+                                .verifyWith(key)
+                                .build()
+                                .parseSignedClaims(token)
+                                .getPayload();
 
-        return claims.get(
-                "id",
-                Integer.class);
-    }
+                return claims.get(
+                                "id",
+                                Integer.class);
+        }
+
+        public String extractRol(String token) {
+
+                SecretKey key = Keys.hmacShaKeyFor(
+                                SECRET.getBytes());
+
+                Claims claims = Jwts.parser()
+                                .verifyWith(key)
+                                .build()
+                                .parseSignedClaims(token)
+                                .getPayload();
+
+                return claims.get(
+                                "rol",
+                                String.class);
+        }
 }

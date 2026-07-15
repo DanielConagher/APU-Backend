@@ -41,6 +41,9 @@ public class Contenido {
     @Column(name = "titulo")
     private String titulo;
 
+    @Column(name = "posicion")
+    private Integer posicion;
+
     @OneToMany(mappedBy = "contenido", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Progreso> progresos;
@@ -56,5 +59,9 @@ public class Contenido {
     @OneToMany(mappedBy = "contenido", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Comentario> comentarios;
+
+    @ManyToMany
+    @JoinTable(name = "contenido_discapacidad", joinColumns = @JoinColumn(name = "id_contenido"), inverseJoinColumns = @JoinColumn(name = "id_discapacidad"))
+    private List<Discapacidad> discapacidades;
 
 }

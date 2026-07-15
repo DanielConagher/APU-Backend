@@ -10,6 +10,8 @@ public class ResultadoCuestionarioDTO {
 
     private Integer nota;
 
+    private Boolean aprobado;
+
     private Integer experienciaGanada;
 
     private String retroalimentacion;

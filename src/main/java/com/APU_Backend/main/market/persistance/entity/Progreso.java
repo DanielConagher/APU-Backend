@@ -16,7 +16,8 @@ public class Progreso {
     @Column(name = "id_progreso")
     private Integer idProgreso;
 
-    private Boolean completada;
+    @Column(name = "completada")
+    private Integer completada;
 
     @ManyToOne
     @JoinColumn(name = "id_estudiante")
