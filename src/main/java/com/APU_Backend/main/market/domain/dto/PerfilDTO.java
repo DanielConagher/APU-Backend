@@ -1,5 +1,7 @@
 package com.APU_Backend.main.market.domain.dto;
 
+import java.util.List;
+
 import lombok.*;
 
 @Getter
@@ -21,4 +23,6 @@ public class PerfilDTO {
     private String correo;
 
     private Integer idUbicacion;
+
+    private List<Integer> idsDiscapacidades;
 }
